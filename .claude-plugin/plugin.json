@@ -1,0 +1,11 @@
+{
+  "name": "review-mr",
+  "description": "Orchestrate a 5-agent team to review PRs with structured scoring across 10 categories",
+  "version": "1.0.0",
+  "author": {
+    "name": "Galih Citta"
+  },
+  "license": "MIT",
+  "keywords": ["code-review", "pull-request", "merge-request", "agent-team"],
+  "repository": "https://github.com/galihcitta/code-review-agents"
+}

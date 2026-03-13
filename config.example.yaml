@@ -1,0 +1,48 @@
+# code-review-agents configuration
+#
+# Config resolution order (each layer shallow-merges; arrays replace):
+#   1. Plugin defaults (built-in)
+#   2. {plugin_root}/config.yaml (plugin-level overrides)
+#   3. {repo}/.claude/pr-review.yaml (project-level overrides)
+#   4. CLI flags (highest priority)
+#
+# Copy this file to config.yaml and edit as needed.
+
+# Branches to check for base branch detection (tried in order)
+base_branches: [develop, main, master]
+
+# Git remote name
+remote: origin
+
+# Language override: auto | nodejs | golang | mixed | other
+# "auto" detects from file extensions in the diff
+language: auto
+
+# Path to reference standards directory
+# null = use plugin defaults/references/
+references_dir: null
+
+# Path to scoring criteria file
+# null = use plugin defaults/scoring.md
+scoring_file: null
+
+# Directory for review output files (findings + final review)
+output_dir: ~/.claude/pr-review
+
+# Model for reviewer teammates (T1-T4)
+# sonnet | haiku | opus
+reviewer_model: sonnet
+
+# Model for Oracle teammate (T5)
+# sonnet | opus
+oracle_model: opus
+
+# Path to specs directory for --spec flag
+# When set, specs are resolved as: {specs_dir}/{name}/INDEX.md or {specs_dir}/{name}.md
+specs_dir: null
+
+# Timeout for reviewer teammates in seconds
+reviewer_timeout: 600
+
+# Timeout for Oracle teammate in seconds
+oracle_timeout: 900
