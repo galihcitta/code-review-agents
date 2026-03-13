@@ -197,11 +197,77 @@ Any single category score of 1 triggers an automatic REJECT regardless of averag
 
 The full scoring criteria and output template are in `defaults/scoring.md`. You can customize by pointing `scoring_file` to your own file.
 
+## Sample Output
+
+The final review is saved as a markdown file and printed to terminal. Here's what it looks like:
+
+```markdown
+# MR Review Summary
+
+**MR Title:** feature/user-auth
+**Author:** Jane Doe
+**Reviewed by:** Claude Code Agent Team
+**Date:** 2026-03-14
+
+## Approval Status
+Approved with comments (GOOD)
+
+## Key Findings
+
+### Finding 1: Unbounded query in user listing
+**File:** `app/repository/user_repository.js` (Lines 45-48)
+**Severity:** critical
+**Issue:** findAll() called without limit — will load entire table into memory.
+**Suggested fix:**
+  const users = await User.findAll({ where: filters, limit: 100, offset });
+
+### Finding 2: Missing Idempotency-Key on POST
+**File:** `app/controllers/v1/auth.js` (Lines 12-15)
+**Severity:** warning
+...
+
+## Category Scores
+
+| Category | Score | Label |
+|----------|-------|-------|
+| Architecture & Design | 4 | GOOD |
+| HTTP Standards | 3 | ACCEPTABLE |
+| Language Standards | 4 | GOOD |
+| ...
+| **Average** | 3.8 | **GOOD** |
+```
+
+## Adding Language Support
+
+The plugin ships with Node.js and Go standards. To add your own language (Python, Rust, Java, etc.):
+
+1. Create a reference file at `defaults/references/{language}.md` (Layout A) or a directory at `defaults/references/{language}/` (Layout B)
+2. Follow the same section structure as `nodejs.md` or `golang.md` — each section maps to a scoring category
+3. Mark critical items with **REJECT** and non-blocking items with **WARNING**
+4. Set `language: {language}` in your config (auto-detection only supports Node.js and Go)
+
+The agents will use your reference file the same way they use the built-in ones.
+
 ## Known Limitations
 
 - Built-in reference standards cover **Node.js and Go** only. Other languages work but rely on the agents' built-in knowledge (no custom checklist). Add your own via `references_dir`.
 - Task data does not survive TeamDelete — the plugin writes all output to files before cleanup, but if the process is killed mid-review, check `{output_dir}/findings/` for partial results.
 - The `--spec` flag requires `specs_dir` to be configured. Without it, requirements alignment is scored as -1 (excluded from average).
+- Reviews run 5 concurrent agents — expect ~3-5 minutes for a typical PR depending on diff size and model speed.
+
+## Contributing
+
+Contributions are welcome. Some areas that would be particularly useful:
+
+- Reference standards for additional languages (Python, Rust, Java, TypeScript-specific, etc.)
+- Improvements to scoring criteria and decision matrix
+- Better auto-detection for more languages and frameworks
+
+Please open an issue first to discuss significant changes.
+
+## Author
+
+**Galih Citta** — [GitHub](https://github.com/galihcitta)
 
 ## License
 
