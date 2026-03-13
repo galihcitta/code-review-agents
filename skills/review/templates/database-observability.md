@@ -55,8 +55,10 @@ Review the diff against your reference standards. Check for:
 ## Scoring Categories
 
 You score these categories (1-5):
-- `database_standards`
+- `database_standards` — includes event/queue pattern findings (retry, DLQ, idempotent processing)
 - `monitoring_standards`
+
+Event/queue findings should be categorized as `database_standards` in your output JSON.
 
 If no issues found for a category, score 5 and return empty findings for that category.
 

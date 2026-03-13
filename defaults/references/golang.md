@@ -4,7 +4,20 @@ Industry-standard checklist for reviewing Go codebases. Each section maps to a s
 
 ---
 
-## 1. Language Standards
+## 1. Architecture & Design
+
+- DDD / Clean Code architecture: proper layer separation (handlers → usecases/services → repository)
+- Single Responsibility Principle per file/package
+- No business logic in handlers — delegate to service/usecase layer
+- No data access in handlers — delegate to repository layer
+- Dependencies initialized in one place and injected via constructor
+- No circular dependencies between packages
+- Configuration separated from business logic (12-factor)
+- Consistent error propagation across layers (wrap with context, don't swallow)
+
+---
+
+## 2. Language Standards
 
 - All layers MUST communicate through interfaces — **REJECT** if concrete types at layer boundaries
 - `context.Context` as first parameter for all I/O functions — **REJECT** if missing in handlers/services
@@ -21,7 +34,7 @@ Industry-standard checklist for reviewing Go codebases. Each section maps to a s
 
 ---
 
-## 2. HTTP Standards
+## 3. HTTP Standards
 
 - All routes MUST start with "/" — **REJECT** if missing
 - RESTful naming: nouns not verbs in URLs
@@ -41,7 +54,7 @@ Industry-standard checklist for reviewing Go codebases. Each section maps to a s
 
 ---
 
-## 3. Database Standards
+## 4. Database Standards
 
 - All queries MUST use `?` placeholders — **REJECT** raw SQL with string concatenation
 - `SELECT *` is PROHIBITED (exception: `COUNT(*)`) — **REJECT**
@@ -59,7 +72,7 @@ Industry-standard checklist for reviewing Go codebases. Each section maps to a s
 
 ---
 
-## 4. Security Standards
+## 5. Security Standards
 
 - Use whitelist (explicit allowed values map) not blacklist for validation — **REJECT** blacklist-only
 - Input validation and sanitization at handler boundary using struct tags + validator
@@ -76,7 +89,7 @@ Industry-standard checklist for reviewing Go codebases. Each section maps to a s
 
 ---
 
-## 5. Testing Standards
+## 6. Testing Standards
 
 - Unit tests MUST be present for new/changed code — **REJECT** if missing
 - Coverage target: 100% for new code
@@ -92,7 +105,7 @@ Industry-standard checklist for reviewing Go codebases. Each section maps to a s
 
 ---
 
-## 6. Monitoring Standards
+## 7. Monitoring Standards
 
 - APM tool MUST be registered for all services with distributed tracing enabled
 - Request-ID / trace-ID MUST be in all log statements
@@ -108,7 +121,7 @@ Industry-standard checklist for reviewing Go codebases. Each section maps to a s
 
 ---
 
-## 7. Memory & Resource Safety
+## 8. Memory & Resource Safety
 
 - Goroutine leaks: `go func()` MUST have context cancellation or done channel — **REJECT** if leaking
   - Use `errgroup` for managed goroutine lifecycles
@@ -127,7 +140,7 @@ Industry-standard checklist for reviewing Go codebases. Each section maps to a s
 
 ---
 
-## 8. Event & Queue Patterns
+## 9. Event & Queue Patterns
 
 - All messages MUST retry with exponential backoff (default: 3 retries, 100ms initial, 2x factor, 5s max)
 - Failed messages MUST go to Dead Letter Queue (DLQ) after max retries
@@ -140,7 +153,7 @@ Industry-standard checklist for reviewing Go codebases. Each section maps to a s
 
 ---
 
-## 9. Deployment Standards
+## 10. Deployment Standards
 
 - Feature flags required for all new production features — **REJECT** if missing
   - Support: canary percentage, targeted user IDs, on/off toggle
@@ -156,7 +169,7 @@ Industry-standard checklist for reviewing Go codebases. Each section maps to a s
 
 ---
 
-## 10. Documentation & CI/CD
+## 11. Documentation & CI/CD
 
 **Documentation:**
 - README.md MUST be present and comprehensive — **REJECT** if missing

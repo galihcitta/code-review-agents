@@ -33,10 +33,10 @@ If no repos detected, ask the user.
 Examples:
 ```
 # Single repo
-/review-mr /path/to/my-service feature/user-auth --spec user-auth
+/review-mr:review /path/to/my-service feature/user-auth --spec user-auth
 
 # Multi repo
-/review-mr /path/to/api:feature/payments /path/to/gateway:feature/payments --spec payments
+/review-mr:review /path/to/api:feature/payments /path/to/gateway:feature/payments --spec payments
 ```
 
 ### 1b. Load Configuration
@@ -153,10 +153,16 @@ Map each teammate to its reference file paths based on detected LANG.
 ### Layout A: Single-file reference
 
 All 4 reviewers get the same file: `{REFERENCES_DIR}/{LANG}.md`
-- T1 refs: `{REFERENCES_DIR}/{LANG}.md`
-- T2 refs: `{REFERENCES_DIR}/{LANG}.md`
-- T3 refs: `{REFERENCES_DIR}/{LANG}.md`
-- T4 refs: `{REFERENCES_DIR}/{LANG}.md`
+
+Since templates have varying numbers of `{REF_N}` placeholders (T1 has 2, T2/T3 have 3, T4 has 5), inject the single file path into `{REF_1}` and **remove** the remaining `- {REF_N}` lines from the template before injection. Do not leave unresolved placeholders.
+
+### Layout A with mixed language (LANG = "mixed")
+
+Load both `{REFERENCES_DIR}/nodejs.md` and `{REFERENCES_DIR}/golang.md`. Inject both into each template: `{REF_1}` = nodejs.md, `{REF_2}` = golang.md. Remove any remaining `- {REF_N}` lines beyond `{REF_2}`.
+
+### LANG = "other" (no references)
+
+Strip the entire "## Reference Standards" section (the header and all `- {REF_N}` lines) from each template before injection. Teammates will review using their built-in checklist only.
 
 ### Layout B: Per-file references
 
@@ -199,7 +205,7 @@ For `{LANG_FILE}-standards.md`: use `nodejs-standards.md` for Node.js or `golang
 ## Phase 5: Spawn Teammates
 
 Resolve template and scoring paths:
-- `TEMPLATE_DIR = {PLUGIN_ROOT}/skills/review-mr/templates`
+- `TEMPLATE_DIR = {PLUGIN_ROOT}/skills/review/templates`
 - `SCORING_PATH = CONFIG.scoring_file or {PLUGIN_ROOT}/defaults/scoring.md`
 
 For each reviewer teammate (T1-T4):
@@ -266,9 +272,13 @@ Only after you have presented the output, clean up the team using TeamDelete. Th
 
 ## Large Diff Guidance
 
-If the total diff size across all repos shows >2000 lines changed, include this instruction when spawning teammates:
+If the total diff size across all repos shows >2000 lines changed, **append** the following text to the end of each reviewer template's content (after the Follow-Up section) before spawning:
 
-"LARGE DIFF: Prioritize reviewing (1) new files, (2) function signatures, (3) database queries/migrations, (4) route definitions, (5) error handling blocks. Skip pure whitespace/formatting changes and auto-generated files."
+```
+## Large Diff Priority
+
+LARGE DIFF: This PR has >2000 lines changed. Prioritize reviewing (1) new files, (2) function signatures, (3) database queries/migrations, (4) route definitions, (5) error handling blocks. Skip pure whitespace/formatting changes and auto-generated files.
+```
 
 ## Teammate Communication
 

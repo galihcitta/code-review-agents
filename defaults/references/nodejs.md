@@ -4,7 +4,20 @@ Industry-standard checklist for reviewing Node.js codebases. Each section maps t
 
 ---
 
-## 1. Language Standards
+## 1. Architecture & Design
+
+- DDD / Clean Code architecture: proper layer separation (controllers → usecases/services → repository)
+- Single Responsibility Principle per file/class
+- No business logic in controllers — delegate to service/usecase layer
+- No data access in controllers — delegate to repository layer
+- Dependencies initialized in one place and injected via constructor
+- No circular dependencies between layers
+- Configuration separated from business logic (12-factor)
+- Consistent error propagation across layers (don't swallow errors at boundaries)
+
+---
+
+## 2. Language Standards
 
 - All async operations MUST use async/await — **REJECT** callback hell patterns
 - No blocking synchronous operations in request handlers (fs.readFileSync, crypto.pbkdf2Sync, etc.)
@@ -20,7 +33,7 @@ Industry-standard checklist for reviewing Node.js codebases. Each section maps t
 
 ---
 
-## 2. HTTP Standards
+## 3. HTTP Standards
 
 - All routes MUST start with "/" — **REJECT** if missing
 - RESTful naming: nouns not verbs in URLs (e.g., `/users` not `/getUsers`)
@@ -39,7 +52,7 @@ Industry-standard checklist for reviewing Node.js codebases. Each section maps t
 
 ---
 
-## 3. Database Standards
+## 4. Database Standards
 
 - All queries MUST use parameterized/prepared statements — **REJECT** raw SQL with string interpolation
 - `SELECT *` is PROHIBITED (exception: `COUNT(*)`) — **REJECT**
@@ -55,7 +68,7 @@ Industry-standard checklist for reviewing Node.js codebases. Each section maps t
 
 ---
 
-## 4. Security Standards
+## 5. Security Standards
 
 - Use whitelist (explicit allowed values) not blacklist for validation — **REJECT** blacklist-only
 - Input validation and sanitization at handler boundary
@@ -72,7 +85,7 @@ Industry-standard checklist for reviewing Node.js codebases. Each section maps t
 
 ---
 
-## 5. Testing Standards
+## 6. Testing Standards
 
 - Unit tests MUST be present for new/changed code — **REJECT** if missing
 - Coverage target: 100% for new code (branches, functions, lines, statements)
@@ -87,7 +100,7 @@ Industry-standard checklist for reviewing Node.js codebases. Each section maps t
 
 ---
 
-## 6. Monitoring Standards
+## 7. Monitoring Standards
 
 - APM tool MUST be registered for all services (first require in app entry)
 - Request-ID / trace-ID MUST be in all log statements
@@ -102,7 +115,7 @@ Industry-standard checklist for reviewing Node.js codebases. Each section maps t
 
 ---
 
-## 7. Memory & Resource Safety
+## 8. Memory & Resource Safety
 
 **Backend:**
 - Event listener leaks: `.on()` must have matching `.off()` or use `.once()`/`AbortController` — **REJECT** if accumulating
@@ -126,7 +139,7 @@ Industry-standard checklist for reviewing Node.js codebases. Each section maps t
 
 ---
 
-## 8. Event & Queue Patterns
+## 9. Event & Queue Patterns
 
 - All messages MUST retry with exponential backoff (default: 3 retries, 100ms initial, 2x factor, 5s max)
 - Failed messages MUST go to Dead Letter Queue (DLQ) after max retries
@@ -139,7 +152,7 @@ Industry-standard checklist for reviewing Node.js codebases. Each section maps t
 
 ---
 
-## 9. Deployment Standards
+## 10. Deployment Standards
 
 - Feature flags required for all new production features — **REJECT** if missing for new features
   - Support: canary percentage, targeted user IDs, on/off toggle
@@ -155,7 +168,7 @@ Industry-standard checklist for reviewing Node.js codebases. Each section maps t
 
 ---
 
-## 10. Documentation & CI/CD
+## 11. Documentation & CI/CD
 
 **Documentation:**
 - README.md MUST be present and comprehensive — **REJECT** if missing

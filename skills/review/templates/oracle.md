@@ -92,8 +92,8 @@ After completing the Validation Process, decide whether a challenge round is nee
 - Example: `"T1: T2 found raw SQL with string concatenation at order_manager.js:88. This may be an injection risk in your domain. Can you assess?"`
 
 **After sending challenges:**
-- Wait for challenged reviewers to update their tasks (re-read via TaskGet)
-- Look for amended findings (new entries or `"retracted": true` markers)
+- Wait 1-2 minutes, then re-read the challenged reviewers' findings files (the authoritative source)
+- Look for amended findings (new entries or `"retracted": true` markers) in the updated files
 - Incorporate the updated findings into your final assessment
 
 **Limits:**

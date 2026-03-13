@@ -139,14 +139,14 @@ Notes:
 ## Critical Issues vs Warnings
 
 ### Critical Issues (REJECT if present)
-1. Missing unit tests
+1. Missing unit tests or <50% coverage
 2. SQL injection vulnerabilities
 3. Routes without leading "/"
 4. Non-idempotent PUT operations
 5. Callback hell patterns (Node.js)
-6. Missing error handling
+6. Missing error handling / ignored errors (Go: using _ to discard)
 7. SELECT * queries (except COUNT(*))
-8. Missing profiler middleware
+8. Missing profiler/pprof middleware
 9. Missing README.md
 10. Missing feature flags for new features
 11. Unclosed database connections without finally/defer
@@ -158,6 +158,16 @@ Notes:
 17. useEffect without cleanup return when using timers/listeners/fetch (React)
 18. Component lifecycle setup without matching teardown (Vue/Angular)
 19. Unbounded query results — SELECT/findAll/Find without LIMIT
+20. Hardcoded secrets, API keys, or passwords in source code
+21. Blacklist-only input validation (must use whitelist)
+22. XSS vulnerabilities
+23. panic() in HTTP handlers or library code (Go)
+24. Data races / unprotected shared map access (Go)
+25. Missing defer cancel() after context.WithCancel/WithTimeout (Go)
+26. Missing rows.Close() after DB queries (Go)
+27. New environment variables not added to .env.example
+28. Unbuffered channels without guaranteed reader/writer (Go)
+29. Race detection disabled in CI (Go)
 
 ### Warnings (flag but don't reject)
 1. Unresolved Promises in hot paths (flag for author to confirm intentional)
@@ -166,6 +176,9 @@ Notes:
 4. PATCH without Idempotency-Key
 5. Inconsistent logging
 6. Missing integration tests
+7. Missing request-ID / trace-ID in log statements
+8. fmt.Println / log.Println in production code (Go)
+9. Missing health check endpoint
 
 ---
 
