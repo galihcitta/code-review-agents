@@ -1,0 +1,29 @@
+{
+  "name": "code-review-agents",
+  "owner": {
+    "name": "Galih Citta"
+  },
+  "metadata": {
+    "description": "Plugin marketplace for code-review-agents",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "code-review-agents",
+      "source": {
+        "source": "github",
+        "repo": "galihcitta/code-review-agents"
+      },
+      "description": "Orchestrate a 5-agent team to review PRs with structured scoring across 10 categories",
+      "version": "1.0.0",
+      "author": {
+        "name": "Galih Citta"
+      },
+      "homepage": "https://github.com/galihcitta/code-review-agents",
+      "repository": "https://github.com/galihcitta/code-review-agents",
+      "license": "MIT",
+      "keywords": ["code-review", "pull-request", "merge-request", "agent-team"],
+      "category": "productivity"
+    }
+  ]
+}

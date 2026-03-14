@@ -33,10 +33,10 @@ If no repos detected, ask the user.
 Examples:
 ```
 # Single repo
-/review-mr:review /path/to/my-service feature/user-auth --spec user-auth
+/code-review-agents:review /path/to/my-service feature/user-auth --spec user-auth
 
 # Multi repo
-/review-mr:review /path/to/api:feature/payments /path/to/gateway:feature/payments --spec payments
+/code-review-agents:review /path/to/api:feature/payments /path/to/gateway:feature/payments --spec payments
 ```
 
 ### 1b. Load Configuration

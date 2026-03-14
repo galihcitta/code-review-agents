@@ -9,26 +9,26 @@ A Claude Code plugin that orchestrates a 5-agent team to review pull requests. E
 
 ## Installation
 
-**Option 1: Test locally during development**
-```bash
-git clone https://github.com/galihcitta/code-review-agents.git
-claude --plugin-dir ./code-review-agents
-```
-
-**Option 2: Install as a plugin**
+**Option 1: Install from marketplace**
 ```bash
 # Add the marketplace (one-time)
 /plugin marketplace add galihcitta/code-review-agents
 
-# Install
-/plugin install review-mr
+# Install the plugin
+/plugin install code-review-agents@code-review-agents
+```
+
+**Option 2: Test locally during development**
+```bash
+git clone https://github.com/galihcitta/code-review-agents.git
+claude --plugin-dir ./code-review-agents
 ```
 
 ## Quick Start
 
 Run a review:
 ```
-/review-mr:review /path/to/your-repo feature/my-branch
+/code-review-agents:review /path/to/your-repo feature/my-branch
 ```
 
 Zero configuration required — the plugin ships with default scoring criteria and reference standards for Node.js and Go.
@@ -37,17 +37,17 @@ Zero configuration required — the plugin ships with default scoring criteria a
 
 **Single repo:**
 ```
-/review-mr:review /path/to/my-service feature/user-auth
+/code-review-agents:review /path/to/my-service feature/user-auth
 ```
 
 **Single repo with spec:**
 ```
-/review-mr:review /path/to/my-service feature/user-auth --spec user-auth
+/code-review-agents:review /path/to/my-service feature/user-auth --spec user-auth
 ```
 
 **Multi-repo (cross-repo review):**
 ```
-/review-mr:review /path/to/api:feature/payments /path/to/gateway:feature/payments --spec payments
+/code-review-agents:review /path/to/api:feature/payments /path/to/gateway:feature/payments --spec payments
 ```
 
 ## Plugin Structure
@@ -55,10 +55,11 @@ Zero configuration required — the plugin ships with default scoring criteria a
 ```
 code-review-agents/
 ├── .claude-plugin/
-│   └── plugin.json              # Plugin manifest (name, version, description)
+│   ├── plugin.json              # Plugin manifest (name, version, description)
+│   └── marketplace.json         # Marketplace catalog for plugin distribution
 ├── skills/
 │   └── review/
-│       ├── SKILL.md             # Orchestrator skill (invoked as /review-mr:review)
+│       ├── SKILL.md             # Orchestrator skill (invoked as /code-review-agents:review)
 │       └── templates/
 │           ├── security-memory.md
 │           ├── architecture-lang.md
@@ -143,7 +144,7 @@ Each reviewer agent receives only the files relevant to its domain. Set `referen
 ## Architecture
 
 ```
-User runs /review-mr:review
+User runs /code-review-agents:review
        │
        ▼
    Lead Agent (you)

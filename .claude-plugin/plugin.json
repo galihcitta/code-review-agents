@@ -1,5 +1,5 @@
 {
-  "name": "review-mr",
+  "name": "code-review-agents",
   "description": "Orchestrate a 5-agent team to review PRs with structured scoring across 10 categories",
   "version": "1.0.0",
   "author": {
