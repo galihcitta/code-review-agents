@@ -3,10 +3,6 @@
   "owner": {
     "name": "Galih Citta"
   },
-  "metadata": {
-    "description": "Plugin marketplace for code-review-agents",
-    "version": "1.0.0"
-  },
   "plugins": [
     {
       "name": "code-review-agents",
@@ -19,11 +15,9 @@
       "author": {
         "name": "Galih Citta"
       },
-      "homepage": "https://github.com/galihcitta/code-review-agents",
       "repository": "https://github.com/galihcitta/code-review-agents",
       "license": "MIT",
-      "keywords": ["code-review", "pull-request", "merge-request", "agent-team"],
-      "category": "productivity"
+      "keywords": ["code-review", "pull-request", "merge-request", "agent-team"]
     }
   ]
 }

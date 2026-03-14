@@ -2,7 +2,6 @@
 name: review
 description: Orchestrate a 5-agent team to review PRs
 version: "1.0.0"
-user-invocable: true
 allowed-tools: [Read, Write, Bash, Glob, Grep, TeamCreate, TaskCreate, TaskUpdate, TaskGet, TaskList, SendMessage, TeamDelete]
 argument-hint: "<repo-path> <branch> [--spec <name>]"
 ---
