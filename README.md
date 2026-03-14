@@ -18,7 +18,7 @@ claude --plugin-dir ./code-review-agents
 **Option 2: Install as a plugin**
 ```bash
 # Add the marketplace (one-time)
-/plugin marketplace add your-org/code-review-agents
+/plugin marketplace add galihcitta/code-review-agents
 
 # Install
 /plugin install review-mr
